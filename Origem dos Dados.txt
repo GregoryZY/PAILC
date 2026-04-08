@@ -1,0 +1,138 @@
+Origem dos Dados e Funcionamento do Sistema
+🧠 Visão Geral
+
+O sistema funciona consumindo dados externos (APIs), processando essas informações internamente em Python e gerando uma análise sobre a viabilidade de um local para um negócio.
+
+🌐 1. De onde vêm os dados?
+
+Os dados não ficam no seu sistema — eles vêm de serviços externos na internet (APIs).
+
+📍 1.1 Geolocalização (Endereço → Coordenadas)
+
+Quando o usuário digita um endereço, o sistema consulta:
+
+OpenStreetMap (via Nominatim)
+
+👉 Essa API retorna:
+
+Latitude
+Longitude
+Nome do local
+
+📌 Exemplo:
+
+{
+  "lat": -23.561684,
+  "lon": -46.655981
+}
+🗺️ 1.2 Pontos de Interesse (o que tem ao redor)
+
+Com as coordenadas, o sistema consulta:
+
+OpenStreetMap (via Overpass API)
+
+👉 Essa API retorna:
+
+Restaurantes
+Cafés
+Escolas
+Transporte
+Outros estabelecimentos
+
+📌 Exemplo:
+
+{
+  "name": "Restaurante X",
+  "lat": -23.561,
+  "lon": -46.655
+}
+⚙️ 2. Como o sistema funciona (passo a passo)
+🔹 Etapa 1 – Entrada do usuário
+
+O usuário informa:
+
+Endereço
+Tipo de negócio
+🔹 Etapa 2 – Requisição para API
+
+O sistema usa Python (biblioteca requests) para fazer chamadas HTTP:
+
+requests.get("URL_DA_API")
+
+👉 Isso envia um pedido para o servidor externo
+
+🔹 Etapa 3 – Recebimento dos dados (JSON)
+
+A API responde com dados no formato JSON:
+
+👉 JSON = formato padrão de troca de dados
+
+🔹 Etapa 4 – Tratamento dos dados
+
+O sistema processa os dados recebidos:
+
+Filtra informações relevantes
+Remove dados desnecessários
+Organiza em listas e estruturas
+
+Ferramenta usada:
+
+Pandas
+🔹 Etapa 5 – Análise e cálculo do score
+
+O sistema aplica regras para gerar um resultado:
+
+Muitos concorrentes → score diminui
+Muitos pontos de interesse → score aumenta
+
+📌 Exemplo:
+
+Score = 100 - concorrentes + pontos_de_interesse
+🔹 Etapa 6 – Geração do resultado
+
+O sistema produz:
+
+Score (0 a 100)
+Classificação do local
+Lista de estabelecimentos
+🔹 Etapa 7 – Exibição ao usuário
+
+Os dados são apresentados em:
+
+Texto (resultado)
+Mapa interativo
+
+Ferramentas:
+
+Streamlit
+Folium
+🔄 3. Fluxo completo do sistema
+Usuário → Sistema → API → Sistema → Resultado
+
+Ou mais detalhado:
+
+Entrada → Geocodificação → Busca de locais → Tratamento → Score → Saída
+📦 4. Papel de cada componente
+Componente	Função
+API	Fornecer dados
+Python	Processar e analisar
+JSON	Formato dos dados
+Interface	Mostrar resultado
+⚠️ 5. Observações importantes
+O sistema depende da internet
+A qualidade dos dados depende das APIs
+APIs gratuitas podem ter limitações
+Os dados são atualizados em tempo real
+🚀 6. Conclusão
+
+O projeto funciona como um intermediário inteligente:
+
+👉 Ele coleta dados externos
+👉 Processa esses dados
+👉 Transforma em informação útil
+
+Isso caracteriza um sistema de:
+
+Análise de dados
+Integração de APIs
+Inteligência de localização
