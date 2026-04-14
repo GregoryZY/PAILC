@@ -1,0 +1,47 @@
+{
+  "project": "Pailc",
+
+  "input": {
+    "cep": "01001000",
+    "business_type": "restaurant"
+  },
+
+  "services": {
+    "viacep": {
+      "url": "https://viacep.com.br/ws/01001000/json/",
+      "description": "Converte CEP em endereço"
+    },
+    "nominatim": {
+      "url": "https://nominatim.openstreetmap.org/search",
+      "params": {
+        "q": "Praça da Sé, São Paulo, SP",
+        "format": "json"
+      },
+      "description": "Converte endereço em coordenadas"
+    },
+    "overpass": {
+      "url": "https://overpass-api.de/api/interpreter",
+      "description": "Busca locais próximos"
+    }
+  },
+
+  "location": {
+    "address": "Praça da Sé, São Paulo, SP",
+    "coordinates": {
+      "lat": -23.55052,
+      "lon": -46.633308
+    }
+  },
+
+  "analysis": {
+    "radius": 500,
+    "type": "restaurant",
+    "competitors_count": 1,
+    "poi_count": 1
+  },
+
+  "result": {
+    "score": 85,
+    "classification": "Localização excelente"
+  }
+}
