@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAILC - Plataforma de Análise Inteligente de Localização Comercial</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <scrpit src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></scrpit>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h1>PAILC</h1>
+            <p>Plataforma da Análise Inteligente<br>de Localização Comercial</p>
+        </div>
+
+<!--ÁREA DE CADASTRO - INTEGRAÇÃO-->
+        <div class="cadastro-section">
+            <h3>Cadastro</h3>
+            <input type="text" id="nome" placeholder="Nome Completo">
+            <input type="email" id="email" placeholder="Email">
+            <input type="tel" id="telefone" placeholder="Telefone">
+            <input type="password" id="senha" placeholder="Senha">
+            <button id="btn-cadastrar" onclick="cadastrarUsuario()">Cadastrar</button>
+            <div id="msg-cadastro" class="msg"></div>
+        </div>  
+        
+<!--ÁREA DE LOGIN - INTEGRAÇÃO-->     
+        <div class="login-section">
+            <h3>Login</h3>
+            <input type="email" id="login-email" placeholder="Email">
+            <input type="password" id="login-senha" placeholder="Senha">
+             <button id="btn-login" onclick="fazerLogin()">Entrar</button>
+             <div id="msg-login" class="msg"></div>
+        </div>
+
+<!--ÁREA DE PREFERENCIA - INTEGRAÇÃO--> 
+        <div class="negocio-section" id="negocio-section" style="display: none;">
+            <h3>Seu Negócio</h3>
+            <select id="tipo-negocio">
+                <option value="Restaurante">Restaurante</option>
+                <option value="Loja">Loja</option>
+                <option value="Cafeteria">Cafetaria</option>
+                <option value="Food Truck">Food Truck</option>
+                <option value="Serviçoes">Serviços</option>
+                <option value="Outros">Outros</option>
+            </select>
+            <button id="btn-salvar-preferencia" onclick="salvarPreferencia()">Salvar Preferencia</button>
+            <div id="msg-preferencia" class="msg"></div>
+        </div>
+
+<!--MENU-->
+        <div class="menu">
+            <div class="menu-item active" onclick="mostrarDashboard()">Dashboard</div>
+            <div class="menu-item" onclick="mostrarHitorico()">Minhas Analises</div>
+            <div class="menu-item" onclick="mostrarPerfil()">Perfil</div>
+        </div>
+        <div class="sidebar-footer">
+            <p>localizacao.comercial@pailc.com</p>
+            <p>Versão 1.0</p>
+        </div>
+    </div>
+
+<!--DASHBOARD (PÁGINA PRINCIPAL)-->
+    <div class="main-content">
+        <div id="dashboard-page">
+            <h1>PAILC</h1>
+            <p class="subtitle">Analise o potencial de localização pelo CEP</p>
+
+            <div class="search-card">
+                <div class="cep-input">
+                    <input tyṕe="text" id="cep-input" placeholder="Ex: 01234-567" maxlength="9">
+                    <button id="btn-buscar" onclick="buscarEndereco()">Buscar Endereço</button>
+                </div>
+            </div>
+
+            <div id="resultados" style="display: none;">
+                <div id="mapa" class="mapa"></div>
+
+                <div class="coordenadas" id="coordenadas"></div>
+
+                <div class="score-card">
+                    <h3>Score de Avaliação do Local</h3>
+                    <div class="score-value" id="score-value">--/100</div>
+                    <div class="recomendacao" id="recomendacao"></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+
+                <div class="two-columns">
+                    <div class="column">
+                        <h4>Comércios relevantes para seu negócio</h4>
+                        <div id="negocios-relevantes" class="lista-negocios">aguardando busca...</div>
+                    </div>
+                    <div class="column">
+                        <h4>Negocios em geral na região</h4>
+                        <div id="negocios-gerais" class="lista-negocios">Aguardando busca...</div>
+                    </div>
+                </div>
+
+                <button id="btn-salvar-analise" class="bnt-salvar" onclick="salvarAnalise()" style="display: none;">Salvar esta análise</button>
+            </div>
+
+            <div class="loader" id="loader" style="display: none;">
+                <div class="spinner"></div>
+                <p>Analisando localização...</p>
+            </div>
+        </div>
+
+<!--HISTÓRICO (PAGINA SECUNDARIA)-->
+        <div id="historico-page" style="display: none;">
+            <h1>Minhas Análises</h1>
+            <p class="subtitle">Histórico de todas as suas análises de localização</p>
+            <div id="lista-historico" class="historico-lista">
+                <p class="placeholder">Faça login para ver seu histórico</p>
+            </div>
+        </div>
+
+<!--PERFIL (PAGINA SECUNDARIA)-->
+        <div id="perfil-page" style="display: none;">
+            <h1>Meu Perfil</h1>
+            <p class="subtitle">Gerencie seus dados cadastrais</p>
+            <div class="perfil-card">
+                <div class="perfil-info">
+                    <p><strong>Nome:</strong> <span id="perfil-nome">-</span></p>
+                    <p><strong>Email:</strong> <span id="perfil-email">-</span></p>
+                    <p><strong>Telefone:</strong> <span id="perfil-telefone">-</span></p>
+                    <p><strong>Tipo de negócio:</strong> <span id="perfil-negocio">-</span></p>
+                </div>
+                <button onclick="logout()" class="btn-logout">SAIR</button>
+            </div>
+        </div> 
+
+        <div class="footer-page">
+            PAILC 2026 - Plataforma de Análise Inteligente de Localização Comercial
+        </div>
+    </div>
+
+    <script src="script.js"></script>    
+</body>
+</html>
