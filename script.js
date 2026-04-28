@@ -8,7 +8,7 @@ let analiseAtual = null;
 const API_URL = 'http://localhost:5000/api';
 
 // mascara Cep  
-document.getElementById('cep').addEventListener('input', function(e) {
+document.getElementById('cep-input').addEventListener('input', function(e) {
     let value = e.target.value.replace(/\D/g, '');
     if (value.length > 5) {
         value = value.slice(0, 5) + '-' + value.slice(5, 8);
