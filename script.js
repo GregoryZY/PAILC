@@ -148,7 +148,7 @@ async function buscarEndereco() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 cep: cep,
-                tipo_negocio: usuarioAtual?.tipo_negocio || 'Restaurante'
+                tipo_negocio: usuarioAtual.tipo_negocio || 'Restaurante'
             })
         });
         
